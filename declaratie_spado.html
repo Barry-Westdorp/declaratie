@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>2025 Declaratie Trainers Spado</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        body { font-family: Calibri, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 1350px; margin: 0 auto; background: #fff; padding: 30px; border: 1px solid #bfbfbf; box-shadow: 0 0 15px rgba(0,0,0,0.05); }
+        
+        /* Officiële Logo Uitlijning */
+        .logo-wrapper { float: right; margin-bottom: 20px; }
+        .logo-img { height: 75px; width: auto; object-fit: contain; }
+        .clear { clear: both; }
+
+        h1 { font-size: 1.6em; color: #1F4E78; margin-top: 0; border-bottom: 2px solid #1F4E78; padding-bottom: 5px; }
+        h2 { font-size: 1.1em; color: #1F4E78; margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; border-left: 4px solid #C00000; padding-left: 8px; }
+        
+        /* Stamgegevens & Verplichte Velden */
+        .meta-table { width: 100%; margin-bottom: 25px; border-collapse: collapse; }
+        .meta-table td { padding: 5px 8px; border: none; vertical-align: middle; }
+        .meta-table label { font-weight: bold; font-size: 14px; color: #1F4E78; }
+        .required-star { color: #C00000; font-weight: bold; margin-left: 2px; }
+        
+        .meta-table input, .meta-table select { width: 100%; padding: 6px; box-sizing: border-box; border: 1px solid #1F4E78; font-size: 13px; background-color: #F9FBFD; transition: all 0.2s; }
+        .input-required { border: 1px solid #C00000 !important; background-color: #FFF2F2; }
+        .input-error-focus { border: 2px solid #C00000 !important; background-color: #FCE4D6 !important; }
+        
+        .error-banner { display: none; background-color: #FCE4D6; border: 2px solid #C00000; color: #C00000; padding: 12px; margin-bottom: 20px; font-weight: bold; font-size: 14px; }
+        .iban-msg { font-size: 11px; font-weight: bold; margin-top: 2px; display: block; }
+
+        /* Uren Matrix Kalender */
+        .matrix-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 12px; table-layout: fixed; }
+        .matrix-table th { background-color: #1F4E78; color: white; border: 1px solid #000; padding: 6px 1px; text-align: center; }
+        .matrix-table td { border: 1px solid #A6A6A6; padding: 2px; text-align: center; background-color: #fff; }
+        
+        .matrix-table select { 
+            width: 100%; border: none; text-align: center; font-size: 12px; padding: 4px 0; background: transparent; 
+            appearance: none; -webkit-appearance: none; cursor: pointer; font-weight: bold; color: #555;
+        }
+        .matrix-table select.has-value { background-color: #DDEBF7; color: #1F4E78; }
+        .lbl-maand-naam { font-weight: bold; color: #1F4E78; text-transform: capitalize; background-color: #DDEBF7; border: 1px solid #000 !important; text-align: center; }
+        .disabled-day { background-color: #D9D9D9 !important; color: #D9D9D9; }
+        .disabled-day select { pointer-events: none; color: #A6A6A6; font-weight: normal; }
+
+        /* Standaard Tabellen */
+        .excel-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 13px; }
+        .excel-table th { background-color: #1F4E78; color: white; border: 1px solid #000; padding: 6px; }
+        .excel-table td { border: 1px solid #A6A6A6; padding: 4px; text-align: center; }
+        .excel-table input { width: 98%; padding: 5px; border: 1px solid #ddd; box-sizing: border-box; font-size: 13px; }
+        .text-left { text-align: left !important; padding-left: 8px !important; }
+        .text-right { text-align: right !important; padding-right: 8px !important; }
+
+        /* Overzichten en Totalen */
+        .summary-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        .summary-table td { border: 1px solid #000; padding: 6px 12px; }
+        .bg-total-label { text-align: right; font-weight: bold; background-color: #fff; }
+        .bg-yellow-total { background-color: #FFF2CC; font-weight: bold; text-align: center; border: 2px solid #000 !important; }
+
+        .adres-suggestie { padding: 8px 12px; cursor: pointer; font-size: 13px; border-bottom: 1px solid #eee; }
+        .adres-suggestie:hover { background: #EBF2FA; }
+        .adres-suggestie-handmatig { padding: 8px 12px; cursor: pointer; font-size: 12px; color: #1F4E78; font-style: italic; }
+        .adres-suggestie-handmatig:hover { background: #f0f7ff; }
+        .belasting-waarschuwing { display:none; margin: 10px 0; padding: 12px 16px; background: #FFF8E1; border-left: 4px solid #F9A825; border-radius: 3px; font-size: 13px; }
+        .belasting-waarschuwing strong { color: #E65100; }
+        .btn-rij-toevoegen:hover { background-color: #EBF2FA; }
+        .btn-rij-toevoegen:disabled { color: #aaa; border-color: #ccc; cursor: default; background: none; }
+        .btn-export { background-color: #1F4E78; color: white; padding: 15px; border: 2px solid #000; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-export:hover { background-color: #153550; border-color: #C00000; }
+        .info-box { background: #F4F8FC; border-left: 4px solid #1F4E78; padding: 15px 25px; margin-bottom: 10px; }
+        .info-box h2 { margin-top: 18px; margin-bottom: 6px; font-size: 1em; }
+        .info-box h2:first-child { margin-top: 4px; }
+        .info-box p, .info-box li { font-size: 13px; line-height: 1.65; margin: 4px 0; color: #333; }
+        .info-box ul { margin: 6px 0 6px 18px; padding: 0; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="pagina-info">
+    <div class="logo-wrapper">
+        <img src="https://images.foys.io/foys/2737bfa1-9d11-4642-af7c-372e837562d7/45eb04dc-c26b-48c5-b900-20e4601e49f3.png" alt="SPADO Logo" class="logo-img">
+    </div>
+    <div class="clear"></div>
+    <h1>Declaraties – Informatie &amp; Instructies</h1>
+
+    <div class="info-box">
+        <h2>Invullen declaratieformulier</h2>
+        <p>Vul het declaratieformulier volledig in. In het digitaal formulier zijn de lichtblauw gekleurde vakken in te vullen. Selecteer het juiste kwartaal en jaar, vul je persoonsgegevens in en selecteer je trainerscode / vergoeding.</p>
+
+        <h2>Bijlagen</h2>
+        <ul>
+            <li>Voeg je aankoopbewijs of inschrijfformulier (voor bijv. cursus etc.) toe.</li>
+            <li>Slechte kwaliteit foto's van bonnetjes/facturen (te donker of onscherp) worden <strong>niet geaccepteerd</strong>.</li>
+            <li>Bij declaratie voor een trainersopleiding of -cursus: stuur je digitale deelnamebewijs mee.</li>
+        </ul>
+
+        <h2>Inleveren</h2>
+        <p>Stuur het declaratieformulier samen met aankoopbewijzen en/of facturen naar degene die volgens de procuratieregeling jouw declaratie moet goedkeuren. Deze zal dan de declaratie na goedkeuring doorsturen naar de penningmeester.</p>
+
+        <h2>Tarieven</h2>
+        <ul>
+            <li>Het tarief is een uurtarief per trainingsuur. In dit tarief is de voorbereidingstijd reeds inbegrepen.</li>
+            <li>Bespreek je opleidingsbehoefte met de coördinator.</li>
+            <li>Het totaal aan vergoedingen op jaarbasis zal niet boven de door de Belastingdienst toegestane vergoeding voor vrijwilligers zijn, tenzij de werkelijke gemaakte kosten aantoonbaar hoger zijn dan de maximale vrijstelling.</li>
+            <li>Het bovenstaande tarief is geldig vanaf <strong>1 januari 2024</strong>.</li>
+            <li>Trainers die op grond van bestaande afspraken meer krijgen dan volgens het schema zullen het oude bedrag blijven ontvangen maar niet meegroeien totdat ze in het juiste tarief vallen. Kies in dat geval voor <strong>TR6</strong> op het declaratieformulier en vul het "afgesproken" bedrag in.</li>
+            <li>De coördinatoren plaatsen de trainers op grond van de bij hen bekende informatie in een van de tarieven. Mocht een trainer in de tussentijd door middel van een opleiding in een nieuwe categorie terechtkomen, dan gaat dat in op de 1e dag van het kwartaal volgend op het afronden van de opleiding.</li>
+            <li>Stagiaires vallen niet onder bovenstaande. Na afloop van een stage zal de begeleider de stagiair – als deze het goed gedaan heeft – bedanken met een cadeaubon. De hoogte van de cadeaubon is afhankelijk van de duur van de stage, in overleg met de coördinatoren.</li>
+        </ul>
+
+        <h2>Inlevertermijn</h2>
+        <ul>
+            <li>Lever declaraties en facturen <strong>per kwartaal binnen twee weken</strong> na het kwartaal in.</li>
+            <li>Je wordt geacht kosten voor trainerscursussen en -workshops eerst zelf te betalen; declaraties van deze kosten kunnen pas ingediend worden <em>ná</em> deelname.</li>
+            <li>De inlevertermijn van declaraties en facturen over het voorgaande jaar eindigt op <strong>1 februari</strong> van het daaropvolgende jaar.</li>
+        </ul>
+    </div>
+
+    <div style="text-align:center; margin: 30px 0 10px;">
+        <button class="btn-export" style="max-width:400px;" onclick="document.getElementById('pagina-formulier').scrollIntoView({behavior:'smooth'})">
+            ▼ Ga naar het declaratieformulier
+        </button>
+    </div>
+</div>
+
+<div class="container" id="pagina-formulier" style="margin-top: 20px;">
+    <div class="logo-wrapper">
+        <img src="https://images.foys.io/foys/2737bfa1-9d11-4642-af7c-372e837562d7/45eb04dc-c26b-48c5-b900-20e4601e49f3.png" alt="SPADO Logo" class="logo-img">
+    </div>
+    <div class="clear"></div>
+
+    <h1>Declaratieformulier Trainers</h1>
+
+    <div id="errorBanner" class="error-banner"></div>
+    
+    <table class="meta-table">
+        <tr>
+            <td style="width: 12%;"><label>Kwartaal:</label></td>
+            <td style="width: 38%;">
+                <select id="kwartaal" onchange="updateMaandLabels(); validerenDagenPerMaand(); berekenAlles();">
+                    <option value="1ste kwartaal">1ste kwartaal</option>
+                    <option value="2de kwartaal">2de kwartaal</option>
+                    <option value="3de kwartaal">3de kwartaal</option>
+                    <option value="4de kwartaal">4de kwartaal</option>
+                </select>
+            </td>
+            <td style="width: 12%;"><label>Jaar:</label></td>
+            <td style="width: 38%;"><input type="number" id="jaar" value="2026" oninput="validerenDagenPerMaand(); berekenAlles();"></td>
+        </tr>
+        <tr>
+            <td><label>Naam:<span class="required-star">*</span></label></td>
+            <td><input type="text" id="naam" class="input-required" placeholder="Naam (Verplicht)" oninput="verwijderFoutStijl(this)"></td>
+            <td><label>Trainerscode:</label></td>
+            <td>
+                <select id="trainerscode" onchange="berekenAlles()">
+                    <option value="3.80">TR1 - Helpende hand/ begeleider 18- (€3,80)</option>
+                    <option value="4.50">TR2 - Helpende hand/ begeleider 18+ (€4,50)</option>
+                    <option value="6.00">TR3 - Assistent trainer AT2/LT2 (€6,00)</option>
+                    <option value="8.00">TR4 - Zelfstandig trainer AT3/LT3 (€8,00)</option>
+                    <option value="10.00">TR5 - Topcoach AT4/LT4 (€10,00)</option>
+                    <option value="0.00">TR6 - Specialist / overig (In overleg)</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Adres:<span class="required-star">*</span></label></td>
+            <td style="position:relative;">
+                <input type="text" id="adres" class="input-required" placeholder="Straat + Huisnummer (Verplicht)" oninput="verwijderFoutStijl(this); zoekAdres(this.value)" autocomplete="off">
+                <div id="adres_suggesties" style="display:none; position:absolute; z-index:999; background:#fff; border:1px solid #bbb; border-radius:3px; width:100%; max-height:200px; overflow-y:auto; box-shadow:0 4px 8px rgba(0,0,0,0.15);"></div>
+            </td>
+            <td><label id="lbl_tr6" style="display:none; color: #C00000;">Afgesproken tarief:</label></td>
+            <td><input type="number" id="tarief_tr6" value="0" min="0" step="0.01" oninput="berekenAlles()" style="display:none;"></td>
+        </tr>
+        <tr>
+            <td><label>Postcode:<span class="required-star">*</span></label></td>
+            <td><input type="text" id="postcode_wp" class="input-required" placeholder="bijv. 4614AD (Verplicht)" oninput="verwijderFoutStijl(this)" onblur="haalWoonplaatsOp(this.value)"></td>
+            <td><label>Rekeningnummer:<span class="required-star">*</span></label></td>
+            <td>
+                <input type="text" id="iban" class="input-required" placeholder="NL00 BANK 0000 0000 00 (Verplicht)" oninput="valideerIBAN(); verwijderFoutStijl(this);">
+                <span id="iban_status" class="iban-msg"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Woonplaats:</label></td>
+            <td style="position:relative;">
+                <input type="text" id="woonplaats" placeholder="Wordt automatisch ingevuld" style="background:#f0f7ff;">
+                <span id="woonplaats_status" style="font-size:11px; color:#888; margin-left:5px;"></span>
+            </td>
+            <td><label>Telefoon:</label></td>
+            <td><input type="text" id="telefoon" placeholder="Telefoonnummer"></td>
+        </tr>
+    </table>
+
+    <h2>Hieronder trainingsduur per data aangeven</h2>
+    <table class="matrix-table" id="matrixUren">
+        <thead>
+            <tr>
+                <th style="width: 120px;">Maand</th>
+                <script>for(let i=1; i<=31; i++) document.write(`<th style="width: 32px;">${i}</th>`);</script>
+                <th style="width: 65px; background-color: #000; color: #fff;">Totaal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="row_m1">
+                <td class="lbl-maand-naam" id="lbl_m1">Januari</td>
+                <script>
+                    for(let i=1; i<=31; i++) {
+                        document.write(`<td id="m1_cel_${i}">
+                            <select id="m1_dag_${i}" class="m1-dag" onchange="updateDropdownStyle(this); berekenAlles();">
+                                <option value="0"></option><option value="1">1</option><option value="1.5">1,5</option><option value="2">2</option><option value="3">3</option>
+                            </select>
+                        </td>`);
+                    }
+                </script>
+                <td id="tot_m1" style="font-weight:bold; background-color: #F2F2F2;">0</td>
+            </tr>
+            <tr id="row_m2">
+                <td class="lbl-maand-naam" id="lbl_m2">Februari</td>
+                <script>
+                    for(let i=1; i<=31; i++) {
+                        document.write(`<td id="m2_cel_${i}">
+                            <select id="m2_dag_${i}" class="m2-dag" onchange="updateDropdownStyle(this); berekenAlles();">
+                                <option value="0"></option><option value="1">1</option><option value="1.5">1,5</option><option value="2">2</option><option value="3">3</option>
+                            </select>
+                        </td>`);
+                    }
+                </script>
+                <td id="tot_m2" style="font-weight:bold; background-color: #F2F2F2;">0</td>
+            </tr>
+            <tr id="row_m3">
+                <td class="lbl-maand-naam" id="lbl_m3">Maart</td>
+                <script>
+                    for(let i=1; i<=31; i++) {
+                        document.write(`<td id="m3_cel_${i}">
+                            <select id="m3_dag_${i}" class="m3-dag" onchange="updateDropdownStyle(this); berekenAlles();">
+                                <option value="0"></option><option value="1">1</option><option value="1.5">1,5</option><option value="2">2</option><option value="3">3</option>
+                            </select>
+                        </td>`);
+                    }
+                </script>
+                <td id="tot_m3" style="font-weight:bold; background-color: #F2F2F2;">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+        <table class="excel-table" id="typeTrainingTabel" style="max-width: 350px; margin: 0; display: none;">
+            <thead><tr><th style="width: 70%;">Type training</th><th style="width: 30%;">Aantal keer</th></tr></thead>
+            <tbody>
+                <tr id="tr_freq_1"><td class="text-left">aantal trainingen van 1 uur</td><td id="freq_1" style="font-weight: bold;">0</td></tr>
+                <tr id="tr_freq_15"><td class="text-left">aantal trainingen van 1,5 uur</td><td id="freq_15" style="font-weight: bold;">0</td></tr>
+                <tr id="tr_freq_2"><td class="text-left">aantal trainingen van 2 uur</td><td id="freq_2" style="font-weight: bold;">0</td></tr>
+                <tr id="tr_freq_3"><td class="text-left">aantal trainingen van 3 uur</td><td id="freq_3" style="font-weight: bold;">0</td></tr>
+            </tbody>
+        </table>
+        <div id="noTrainingMsg" style="font-style: italic; color: #777; width: 350px; padding: 10px; border: 1px dashed #A6A6A6; text-align: center; background-color: #FAFBFB;">
+            Nog geen trainingsuren geselecteerd in de matrix.
+        </div>
+
+        <table style="width: 550px; border-collapse: collapse; font-size: 13px;">
+            <tr>
+                <td class="bg-total-label" style="padding: 5px;">Totaal aantal uur training gegeven dit kwartaal:</td>
+                <td id="out_totaal_uren" style="width: 80px; text-align: center; border: 1px solid #000; font-weight: bold;">0</td>
+            </tr>
+            <tr>
+                <td class="bg-total-label" style="padding: 5px;">Voor mijn trainingscode staat een vergoeding per uur van:</td>
+                <td id="out_uurtarief" style="text-align: center; border: 1px solid #000; font-weight: bold;">€ 3,80</td>
+            </tr>
+            <tr>
+                <td class="bg-total-label" style="padding: 5px;">De som van het aantal uur training x de vergoeding bedraagt:</td>
+                <td id="out_geld_uren" class="bg-yellow-total" style="padding: 5px;">€ 0,00</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="display: flex; justify-content: space-between;">
+        <div style="width: 48%;">
+            <h2>Cursus / opleiding / workshop (bonnen bijvoegen)</h2>
+            <table class="excel-table" id="tabelCursus">
+                <tbody>
+                    <tr><td style="width: 75%;"><input type="text" placeholder="Omschrijving"></td><td style="width: 25%;"><input type="number" placeholder="0" class="c-bedrag" min="0" step="0.01" oninput="berekenAlles()" style="text-align:right;"></td></tr>
+                    <tr><td><input type="text"></td><td><input type="number" placeholder="0" class="c-bedrag" min="0" step="0.01" oninput="berekenAlles()" style="text-align:right;"></td></tr>
+                    <tr style="font-weight: bold;"><td class="text-right">Totaal</td><td id="fin_opleiding" class="bg-yellow-total">€ 0,00</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 48%;">
+            <h2>Overige onkosten (bonnen bijvoegen)</h2>
+            <table class="excel-table" id="tabelOnkosten">
+                <tbody>
+                    <tr><td style="width: 75%;"><input type="text" placeholder="Omschrijving"></td><td style="width: 25%;"><input type="number" placeholder="0" class="o-bedrag" min="0" step="0.01" oninput="berekenAlles()" style="text-align:right;"></td></tr>
+                    <tr><td><input type="text"></td><td><input type="number" placeholder="0" class="o-bedrag" min="0" step="0.01" oninput="berekenAlles()" style="text-align:right;"></td></tr>
+                    <tr style="font-weight: bold;"><td class="text-right">Totaal</td><td id="fin_onkosten" class="bg-yellow-total">€ 0,00</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>Kilometer administratie - Trainingen</h2>
+    <table class="excel-table" id="tabelKmTrainingen">
+        <tbody>
+            <tr>
+                <td style="width: 10%;"><input type="number" placeholder="0" class="kt-ritten" min="0" oninput="berekenAlles()"></td>
+                <td class="text-left" style="width: 40%;">huisadres - Rozenoord v.v.</td>
+                <td style="width: 15%;"><input type="number" placeholder="0" class="kt-kmperrit" min="0" step="0.1" oninput="berekenAlles()"></td>
+                <td style="width: 5%;">km</td><td style="width: 5%;">=</td>
+                <td class="kt-totaal" style="font-weight: bold; width: 15%; text-align: right; padding-right: 15px;">0 km</td>
+            </tr>
+            <tr>
+                <td><input type="number" placeholder="0" class="kt-ritten" min="0" oninput="berekenAlles()"></td>
+                <td class="text-left">huisadres - zaal v.v.</td>
+                <td><input type="number" placeholder="0" class="kt-kmperrit" min="0" step="0.1" oninput="berekenAlles()"></td>
+                <td>km</td><td>=</td>
+                <td class="kt-totaal" style="font-weight: bold; text-align: right; padding-right: 15px;">0 km</td>
+            </tr>
+            <tr>
+                <td><input type="number" placeholder="0" class="kt-ritten" min="0" oninput="berekenAlles()"></td>
+                <td class="text-left">huisadres - bos v.v.</td>
+                <td><input type="number" placeholder="0" class="kt-kmperrit" min="0" step="0.1" oninput="berekenAlles()"></td>
+                <td>km</td><td>=</td>
+                <td class="kt-totaal" style="font-weight: bold; text-align: right; padding-right: 15px;">0 km</td>
+            </tr>
+            <tr style="font-weight: bold;">
+                <td colspan="5" class="text-right">Totaal</td>
+                <td id="out_totaal_km" class="bg-yellow-total" style="text-align: right; padding-right: 15px;">0 km</td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn-rij-toevoegen" id="btn_kt_toevoegen" onclick="voegKtRijToe()">+ Voeg rij toe</button>
+
+    <h2>Wedstrijdbegeleiding</h2>
+    <table class="excel-table" style="max-width: 500px; margin-bottom: 15px;">
+        <tbody>
+            <tr>
+                <td style="width: 15%;"><input type="number" placeholder="0" id="wedstrijd_ritten" min="0" oninput="berekenAlles()"></td>
+                <td class="text-left" style="width: 55%;">× wedstrijdbegeleiding à €10,- per rit</td>
+                <td style="width: 5%;">=</td>
+                <td style="width: 25%; font-weight: bold; text-align: right; padding-right: 15px;"><span id="out_wedstrijd_vergoed">€ 0,00</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Wedstrijd km-vergoeding €0,19 per KM (zie huishoudelijk reglement)</h2>
+    <table class="excel-table" id="tabelKmWedstrijd">
+        <tbody>
+            <tr>
+                <td style="width:20%"><input type="text" placeholder="dd-mm"></td>
+                <td style="width:55%"><input type="text" placeholder="Bestemming / Wedstrijdbegeleiding"></td>
+                <td style="width:5%">=</td>
+                <td style="width:20%"><input type="number" class="kw-km" placeholder="0" min="0" oninput="berekenAlles()" style="text-align:right;"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="dd-mm"></td>
+                <td><input type="text" placeholder="Bestemming / Wedstrijdbegeleiding"></td>
+                <td>=</td>
+                <td><input type="number" class="kw-km" placeholder="0" min="0" oninput="berekenAlles()" style="text-align:right;"></td>
+            </tr>
+            <tr>
+                <td><input type="text" placeholder="dd-mm"></td>
+                <td><input type="text" placeholder="Bestemming / Wedstrijdbegeleiding"></td>
+                <td>=</td>
+                <td><input type="number" class="kw-km" placeholder="0" min="0" oninput="berekenAlles()" style="text-align:right;"></td>
+            </tr>
+            <tr style="font-weight: bold;"><td colspan="3" class="text-right">Totaal kilometers wedstrijdbegeleiding</td><td id="out_wedstrijd_km" class="bg-yellow-total" style="text-align: right; padding-right: 10px;">0 km</td></tr>
+        </tbody>
+    </table>
+    <button class="btn-rij-toevoegen" id="btn_kw_toevoegen" onclick="voegKwRijToe()">+ Voeg rij toe</button>
+
+    <h2>Eindoverzicht Declaratie</h2>
+    <div id="belasting_waarschuwing" class="belasting-waarschuwing">
+        ⚠️ <strong>Let op: Hoge trainingsvergoeding</strong><br>
+        Je vergoeding voor trainingen dit kwartaal bedraagt <strong><span id="belasting_bedrag"></span></strong>. Bij een vergelijkbaar bedrag in de overige kwartalen kom je mogelijk boven de belastingvrije vrijwilligersvergoeding van <strong>€ 2.100 per jaar</strong>. Neem contact op met je coördinator of de penningmeester.
+    </div>
+    <table class="summary-table" style="max-width: 650px;">
+        <tr>
+            <td class="text-left" style="width: 70%;">Vergoeding trainingen en wedstrijdbegeleiding:</td>
+            <td id="fin_uren" style="text-align: right; width: 30%; font-weight: bold;">€ 0,00</td>
+        </tr>
+        <tr>
+            <td class="text-left">Vergoeding opleiding:</td>
+            <td id="fin_vergoeding_opl" style="text-align: right; font-weight: bold;">€ 0,00</td>
+        </tr>
+        <tr>
+            <td class="text-left">Vergoeding KM en overige kosten:</td>
+            <td id="fin_km_overig" style="text-align: right; font-weight: bold;">€ 0,00</td>
+        </tr>
+        <tr style="font-size: 15px;">
+            <td class="text-right" style="font-weight: bold;">TOTAAL VERGOEDING:</td>
+            <td id="fin_totaal" class="bg-yellow-total" style="text-align: right;">€ 0,00</td>
+        </tr>
+    </table>
+
+    <div id="export_melding" style="display:none; margin-top:25px; padding:20px 25px; background:#EBF7EE; border:2px solid #2E7D32; border-radius:4px;">
+        <div style="font-size:18px; font-weight:bold; color:#2E7D32; margin-bottom:10px;">✓ Declaratie succesvol geëxporteerd!</div>
+        <p style="margin:6px 0; font-size:13px;">Het bestand <strong><span id="export_melding_naam"></span></strong> is opgeslagen in je <strong>Downloads</strong> map.</p>
+        <p style="margin:12px 0 6px 0; font-size:13px;">📧 <strong>Vergeet niet</strong> dit bestand samen met je aankoopbewijzen en/of facturen te mailen naar je coördinator ter goedkeuring. De coördinator stuurt de declaratie na goedkeuring door naar de penningmeester.</p>
+    </div>
+
+    <button class="btn-export" onclick="exporteerNaarExcel()">Exporteer naar exacte Excel Layout (.xlsx)</button>
+</div> <!-- einde pagina-formulier -->
+
+<script>
+    // Max rijen conform Excel
+    const KT_MAX = 7;   // rijen 46-52
+    const KW_MAX = 19;  // rijen 60-78
+
+    function voegKtRijToe() {
+        const tbody = document.querySelector('#tabelKmTrainingen tbody');
+        const dataRijen = tbody.querySelectorAll('tr:not(:last-child)');
+        if (dataRijen.length >= KT_MAX) return;
+        const totaalRij = tbody.querySelector('tr:last-child');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="number" placeholder="0" class="kt-ritten" min="0" oninput="berekenAlles()"></td>
+            <td class="text-left"><input type="text" class="kt-bestemming" placeholder="Bestemming v.v." style="width:98%;"></td>
+            <td><input type="number" placeholder="0" class="kt-kmperrit" min="0" step="0.1" oninput="berekenAlles()"></td>
+            <td>km</td><td>=</td>
+            <td class="kt-totaal" style="font-weight:bold;text-align:right;padding-right:15px;">0 km</td>`;
+        tbody.insertBefore(tr, totaalRij);
+        berekenAlles();
+        if (tbody.querySelectorAll('tr:not(:last-child)').length >= KT_MAX) {
+            document.getElementById('btn_kt_toevoegen').disabled = true;
+            document.getElementById('btn_kt_toevoegen').textContent = 'Maximum bereikt (7 rijen)';
+        }
+    }
+
+    function voegKwRijToe() {
+        const tbody = document.querySelector('#tabelKmWedstrijd tbody');
+        const dataRijen = tbody.querySelectorAll('tr:not(:last-child)');
+        if (dataRijen.length >= KW_MAX) return;
+        const totaalRij = tbody.querySelector('tr:last-child');
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><input type="text" placeholder="dd-mm"></td>
+            <td><input type="text" placeholder="Bestemming / Wedstrijdbegeleiding"></td>
+            <td>=</td>
+            <td><input type="number" class="kw-km" placeholder="0" min="0" oninput="berekenAlles()" style="text-align:right;"></td>`;
+        tbody.insertBefore(tr, totaalRij);
+        berekenAlles();
+        if (tbody.querySelectorAll('tr:not(:last-child)').length >= KW_MAX) {
+            document.getElementById('btn_kw_toevoegen').disabled = true;
+            document.getElementById('btn_kw_toevoegen').textContent = 'Maximum bereikt (19 rijen)';
+        }
+    }
+
+    const KM_TARIEF = 0.19;
+
+    // Selecteer de volledige waarde bij focus op elk getal-invoerveld
+    document.addEventListener('focus', function(e) {
+        if (e.target.type === 'number') e.target.select();
+    }, true);
+    const kwartaalMaanden = {
+        "1ste kwartaal": ["Januari", "Februari", "Maart"],
+        "2de kwartaal": ["April", "Mei", "Juni"],
+        "3de kwartaal": ["Juli", "Augustus", "September"],
+        "4de kwartaal": ["Oktober", "November", "December"]
+    };
+    
+    const maandIndexen = {
+        "Januari":0, "Februari":1, "Maart":2, "April":3, "Mei":4, "Juni":5,
+        "Juli":6, "Augustus":7, "September":8, "Oktober":9, "November":10, "December":11
+    };
+
+    function updateMaandLabels() {
+        const kwartaal = document.getElementById('kwartaal').value;
+        const maanden = kwartaalMaanden[kwartaal];
+        document.getElementById('lbl_m1').innerText = maanden[0];
+        document.getElementById('lbl_m2').innerText = maanden[1];
+        document.getElementById('lbl_m3').innerText = maanden[2];
+    }
+
+    function getDagenInMaand(maandNaam, jaar) {
+        const maandId = maandIndexen[maandNaam];
+        return new Date(jaar, maandId + 1, 0).getDate();
+    }
+
+    function validerenDagenPerMaand() {
+        const jaar = parseInt(document.getElementById('jaar').value) || 2026;
+        const m1Naam = document.getElementById('lbl_m1').innerText;
+        const m2Naam = document.getElementById('lbl_m2').innerText;
+        const m3Naam = document.getElementById('lbl_m3').innerText;
+
+        const maxDagen = [
+            getDagenInMaand(m1Naam, jaar),
+            getDagenInMaand(m2Naam, jaar),
+            getDagenInMaand(m3Naam, jaar)
+        ];
+
+        for(let m=1; m<=3; m++) {
+            const limiet = maxDagen[m-1];
+            for(let d=1; d<=31; d++) {
+                const cel = document.getElementById(`m${m}_cel_${d}`);
+                const select = document.getElementById(`m${m}_dag_${d}`);
+                
+                if (d > limiet) {
+                    cel.classList.add('disabled-day');
+                    select.disabled = true;
+                    select.value = "0"; 
+                    select.classList.remove('has-value');
+                } else {
+                    cel.classList.remove('disabled-day');
+                    select.disabled = false;
+                }
+            }
+        }
+    }
+
+    function updateDropdownStyle(select) {
+        if (parseFloat(select.value) > 0) select.classList.add('has-value');
+        else select.classList.remove('has-value');
+    }
+
+    // ── Adres autocomplete via Nominatim ─────────────────────────────
+    let adresTimeout = null;
+    async function zoekAdres(waarde) {
+        const suggestiesDiv = document.getElementById('adres_suggesties');
+        clearTimeout(adresTimeout);
+        if (waarde.trim().length < 5) { suggestiesDiv.style.display = 'none'; return; }
+        adresTimeout = setTimeout(async () => {
+            try {
+                // Eerst zoeken binnen regio Bergen op Zoom
+                const bbox = 'viewbox=4.1,51.4,4.7,51.7&bounded=1';
+                let res = await fetch(
+                    `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(waarde + ', Nederland')}&format=json&limit=8&addressdetails=1&countrycodes=nl&${bbox}`,
+                    { headers: { 'Accept-Language': 'nl' } }
+                );
+                let data = await res.json();
+
+                // Geen resultaten in regio? Zoek heel Nederland
+                if (!data || data.length === 0) {
+                    res = await fetch(
+                        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(waarde + ', Nederland')}&format=json&limit=8&addressdetails=1&countrycodes=nl`,
+                        { headers: { 'Accept-Language': 'nl' } }
+                    );
+                    data = await res.json();
+                }
+                if (!data || data.length === 0) { suggestiesDiv.style.display = 'none'; return; }
+
+                suggestiesDiv.innerHTML = '';
+                data.forEach(item => {
+                    const a = item.address;
+                    const straat = a.road || a.pedestrian || a.footway || a.path || '';
+                    const nr = a.house_number || '';
+                    const pc = a.postcode ? a.postcode.replace(' ', '') : '';
+                    const plaats = a.village || a.town || a.suburb || a.quarter || a.city || a.municipality || '';
+
+                    // Sla over als er geen echte straatnaam gevonden is
+                    if (!straat) return;
+                    // Sla over als de ingevoerde tekst niet lijkt op de gevonden straat
+                    const invoer = waarde.toLowerCase().replace(/\d+/g, '').trim();
+                    if (invoer.length > 3 && !straat.toLowerCase().includes(invoer.split(' ')[0])) return;
+
+                    const div = document.createElement('div');
+                    div.className = 'adres-suggestie';
+                    div.textContent = `${straat} ${nr}, ${pc} ${plaats}`.trim();
+                    div.onclick = () => {
+                        document.getElementById('adres').value = `${straat} ${nr}`.trim();
+                        if (pc) document.getElementById('postcode_wp').value = pc;
+                        if (plaats) document.getElementById('woonplaats').value = plaats;
+                        suggestiesDiv.style.display = 'none';
+                        document.getElementById('woonplaats_status').textContent = '✓';
+                        document.getElementById('woonplaats_status').style.color = 'green';
+                    };
+                    suggestiesDiv.appendChild(div);
+                });
+
+                // Altijd optie om handmatig in te vullen
+                const handmatig = document.createElement('div');
+                handmatig.className = 'adres-suggestie-handmatig';
+                handmatig.textContent = '✏️ Handmatig invoeren (adres niet gevonden)';
+                handmatig.onclick = () => { suggestiesDiv.style.display = 'none'; };
+                suggestiesDiv.appendChild(handmatig);
+
+                suggestiesDiv.style.display = 'block';
+            } catch { suggestiesDiv.style.display = 'none'; }
+        }, 400);
+    }
+
+    // Sluit suggesties bij klik buiten het veld
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#adres') && !e.target.closest('#adres_suggesties')) {
+            document.getElementById('adres_suggesties').style.display = 'none';
+        }
+    });
+
+    async function haalWoonplaatsOp(postcode) {
+        const status = document.getElementById('woonplaats_status');
+        const veld = document.getElementById('woonplaats');
+        const pc = postcode.replace(/\s+/g, '').toUpperCase();
+        if (!/^\d{4}[A-Z]{2}$/.test(pc)) return;
+
+        status.textContent = '⏳ Zoeken...';
+        status.style.color = '#888';
+        try {
+            const res = await fetch(
+                `https://nominatim.openstreetmap.org/search?postalcode=${pc}&country=NL&format=json&limit=1&addressdetails=1`,
+                { headers: { 'Accept-Language': 'nl' } }
+            );
+            const data = await res.json();
+            if (data && data.length > 0) {
+                const parts = data[0].display_name.split(',').map(s => s.trim());
+                // Probeer eerst village/town uit addressdetails
+                const a = data[0].address;
+                const stad = (a && (a.village || a.town || a.suburb || a.quarter || a.city || a.municipality)) || parts[1] || parts[0];
+                veld.value = stad;
+                status.textContent = '✓';
+                status.style.color = 'green';
+            } else {
+                status.textContent = 'Niet gevonden — vul zelf in';
+                status.style.color = '#C00000';
+            }
+        } catch {
+            status.textContent = 'Niet bereikbaar — vul zelf in';
+            status.style.color = '#C00000';
+        }
+    }
+
+    function verwijderFoutStijl(element) {
+        if (element.value.trim() !== "") {
+            element.classList.remove('input-error-focus');
+        }
+    }
+
+    function valideerIBAN() {
+        const ibanInput = document.getElementById('iban');
+        const statusSpan = document.getElementById('iban_status');
+        const ibanRegex = /^NL[0-9]{2}[A-Z]{4}[0-9]{10}$/i;
+        const opgeschoond = ibanInput.value.replace(/\s+/g, '');
+
+        if (opgeschoond === "") {
+            statusSpan.innerText = "";
+            return false;
+        }
+        if (ibanRegex.test(opgeschoond)) {
+            ibanInput.classList.remove('input-error-focus');
+            statusSpan.style.color = "green";
+            statusSpan.innerText = "✓ Geldig banknummer";
+            return true;
+        } else {
+            statusSpan.style.color = "#C00000";
+            statusSpan.innerText = "✗ Ongeldig IBAN-formaat";
+            return false;
+        }
+    }
+
+    function berekenAlles() {
+        const codeSelect = document.getElementById('trainerscode');
+        let uurtarief = parseFloat(codeSelect.value);
+        
+        if (codeSelect.value === "0.00") {
+            document.getElementById('lbl_tr6').style.display = 'inline';
+            document.getElementById('tarief_tr6').style.display = 'inline';
+            uurtarief = parseFloat(document.getElementById('tarief_tr6').value) || 0;
+        } else {
+            document.getElementById('lbl_tr6').style.display = 'none';
+            document.getElementById('tarief_tr6').style.display = 'none';
+        }
+
+        let totM1 = 0, totM2 = 0, totM3 = 0;
+        let f1 = 0, f15 = 0, f2 = 0, f3 = 0;
+
+        document.querySelectorAll('.m1-dag').forEach(s => {
+            let val = parseFloat(s.value) || 0; totM1 += val;
+            if(val===1) f1++; else if(val===1.5) f15++; else if(val===2) f2++; else if(val===3) f3++;
+        });
+        document.querySelectorAll('.m2-dag').forEach(s => {
+            let val = parseFloat(s.value) || 0; totM2 += val;
+            if(val===1) f1++; else if(val===1.5) f15++; else if(val===2) f2++; else if(val===3) f3++;
+        });
+        document.querySelectorAll('.m3-dag').forEach(s => {
+            let val = parseFloat(s.value) || 0; totM3 += val;
+            if(val===1) f1++; else if(val===1.5) f15++; else if(val===2) f2++; else if(val===3) f3++;
+        });
+        
+        document.getElementById('tot_m1').innerText = totM1.toString().replace('.', ',');
+        document.getElementById('tot_m2').innerText = totM2.toString().replace('.', ',');
+        document.getElementById('tot_m3').innerText = totM3.toString().replace('.', ',');
+        
+        // Live updates voor de Type Training tabel (alleen tonen als aantal > 0)
+        document.getElementById('freq_1').innerText = f1;
+        document.getElementById('tr_freq_1').style.display = (f1 > 0) ? 'table-row' : 'none';
+        
+        document.getElementById('freq_15').innerText = f15;
+        document.getElementById('tr_freq_15').style.display = (f15 > 0) ? 'table-row' : 'none';
+        
+        document.getElementById('freq_2').innerText = f2;
+        document.getElementById('tr_freq_2').style.display = (f2 > 0) ? 'table-row' : 'none';
+        
+        document.getElementById('freq_3').innerText = f3;
+        document.getElementById('tr_freq_3').style.display = (f3 > 0) ? 'table-row' : 'none';
+
+        // Gehele tabel tonen of verbergen op basis van activiteit
+        if (f1 > 0 || f15 > 0 || f2 > 0 || f3 > 0) {
+            document.getElementById('typeTrainingTabel').style.display = 'table';
+            document.getElementById('noTrainingMsg').style.display = 'none';
+        } else {
+            document.getElementById('typeTrainingTabel').style.display = 'none';
+            document.getElementById('noTrainingMsg').style.display = 'block';
+        }
+        
+        const totaalUren = totM1 + totM2 + totM3;
+        const geldUren = totaalUren * uurtarief;
+
+        document.getElementById('out_totaal_uren').innerText = totaalUren.toString().replace('.', ',');
+        document.getElementById('out_uurtarief').innerText = `€ ${uurtarief.toFixed(2).replace('.', ',')}`;
+        document.getElementById('out_geld_uren').innerText = `€ ${geldUren.toFixed(2).replace('.', ',')}`;
+
+        let totaalCursus = 0, totaalOnkosten = 0;
+        document.querySelectorAll('.c-bedrag').forEach(i => totaalCursus += parseFloat(i.value) || 0);
+        document.querySelectorAll('.o-bedrag').forEach(i => totaalOnkosten += parseFloat(i.value) || 0);
+        document.getElementById('fin_opleiding').innerText = `€ ${totaalCursus.toFixed(2).replace('.', ',')}`;
+        document.getElementById('fin_onkosten').innerText = `€ ${totaalOnkosten.toFixed(2).replace('.', ',')}`;
+
+        let kmTrainingen = 0;
+        const ktRitten = document.querySelectorAll('.kt-ritten');
+        const ktKmperrit = document.querySelectorAll('.kt-kmperrit');
+        const ktTotaalEl = document.querySelectorAll('.kt-totaal');
+        
+        for(let i=0; i<ktRitten.length; i++) {
+            const ritten = parseFloat(ktRitten[i].value) || 0;
+            const kmPerRit = parseFloat(ktKmperrit[i].value) || 0;
+            const sub = ritten * kmPerRit;
+            ktTotaalEl[i].innerText = `${sub.toString().replace('.', ',')} km`;
+            kmTrainingen += sub;
+        }
+        document.getElementById('out_totaal_km').innerText = `${kmTrainingen.toString().replace('.', ',')} km`;
+
+        let kmWedstrijd = 0;
+        document.querySelectorAll('.kw-km').forEach(i => kmWedstrijd += parseFloat(i.value) || 0);
+        document.getElementById('out_wedstrijd_km').innerText = `${kmWedstrijd.toString().replace('.', ',')} km`;
+
+        const wedstrijdRitten = parseFloat(document.getElementById('wedstrijd_ritten').value) || 0;
+        const wedstrijdVergoed = wedstrijdRitten * 10;
+        document.getElementById('out_wedstrijd_vergoed').innerText = `€ ${wedstrijdVergoed.toFixed(2).replace('.', ',')}`;
+
+        const vergoedingKm = (kmTrainingen + kmWedstrijd) * KM_TARIEF;
+        const vergoedingKmOverig = vergoedingKm + totaalOnkosten;
+        const eindtotaal = geldUren + wedstrijdVergoed + totaalCursus + vergoedingKmOverig;
+
+        document.getElementById('fin_uren').innerText = `€ ${(geldUren + wedstrijdVergoed).toFixed(2).replace('.', ',')}`;
+        document.getElementById('fin_vergoeding_opl').innerText = `€ ${totaalCursus.toFixed(2).replace('.', ',')}`;
+        document.getElementById('fin_km_overig').innerText = `€ ${vergoedingKmOverig.toFixed(2).replace('.', ',')}`;
+        document.getElementById('fin_totaal').innerText = `€ ${eindtotaal.toFixed(2).replace('.', ',')}`;
+
+        // Belastingwaarschuwing: alleen op trainingsvergoeding (niet km/onkosten/cursus)
+        const waarschuwing = document.getElementById('belasting_waarschuwing');
+        if (geldUren > 525) {
+            document.getElementById('belasting_bedrag').textContent = `€ ${geldUren.toFixed(2).replace('.', ',')}`;
+            waarschuwing.style.display = 'block';
+        } else {
+            waarschuwing.style.display = 'none';
+        }
+    }
+
+    // Validatie-check voorafgaand aan de Excel-export
+    function controleerVerplichteVelden() {
+        const velden = [
+            { id: 'naam', label: 'Naam' },
+            { id: 'adres', label: 'Adres' },
+            { id: 'postcode_wp', label: 'Postcode / Woonplaats' },
+            { id: 'iban', label: 'Rekeningnummer (IBAN)' }
+        ];
+        
+        let fouten = [];
+        const banner = document.getElementById('errorBanner');
+        banner.style.display = 'none';
+
+        velden.forEach(veld => {
+            const el = document.getElementById(veld.id);
+            if (el.value.trim() === "") {
+                fouten.push(veld.label);
+                el.classList.add('input-error-focus');
+            } else {
+                el.classList.remove('input-error-focus');
+            }
+        });
+
+        if (fouten.length > 0) {
+            banner.innerHTML = `⚠️ Kan niet exporteren! Vul de volgende verplichte velden eerst in: <ul>${fouten.map(f => `<li>${f}</li>`).join('')}</ul>`;
+            banner.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alert("Vul alstublieft eerst alle verplichte stamgegevens in.");
+            return false;
+        }
+
+        if (!valideerIBAN()) {
+            document.getElementById('iban').classList.add('input-error-focus');
+            banner.innerHTML = `⚠️ Het ingevulde Rekeningnummer (IBAN) heeft geen geldig formaat.`;
+            banner.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            alert("Het ingevulde banknummer is ongeldig.");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Base64 van het originele Excel-template (ingebakken)
+    const EXCEL_TEMPLATE_B64 = "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";
+
+    async function exporteerNaarExcel() {
+        // Reset melding
+        document.getElementById('export_melding').style.display = 'none';
+
+        if (!controleerVerplichteVelden()) return;
+
+        const btn = document.querySelector('.btn-export[onclick="exporteerNaarExcel()"]');
+        const origTekst = btn.textContent;
+        btn.textContent = '⏳ Bezig met exporteren...';
+        btn.disabled = true;
+
+        try {
+            // Lees formulierwaarden
+        const jaar = parseInt(document.getElementById('jaar').value) || 2026;
+        const kwartaalVal = document.getElementById('kwartaal').value;
+        const naamVal = document.getElementById('naam').value.trim();
+        const adresVal = document.getElementById('adres').value.trim();
+        const postcodeVal = document.getElementById('postcode_wp').value.trim();
+        const ibanVal = document.getElementById('iban').value.trim();
+
+        // Trainerscode: map tarief naar TR-code
+        const tariefMap = { "3.80":"TR1","4.50":"TR2","6.00":"TR3","8.00":"TR4","10.00":"TR5","0.00":"TR6" };
+        const tariefSel = document.getElementById('trainerscode');
+        const tariefVal = parseFloat(tariefSel.value);
+        const trCodeVal = tariefMap[tariefSel.value] || "TR1";
+
+        // Kwartaal -> Q-label voor bestandsnaam
+        const kwartaalNummer = {"1ste kwartaal":"Q1","2de kwartaal":"Q2","3de kwartaal":"Q3","4de kwartaal":"Q4"};
+        const qLabel = kwartaalNummer[kwartaalVal] || "Q1";
+        const bestandsnaam = `${jaar}_${qLabel}_Declaratie_${naamVal.replace(/\s+/g, '_')}.xlsx`;
+
+        // Laad het originele Excel als template
+        const b64 = EXCEL_TEMPLATE_B64;
+        const bin = atob(b64);
+        const arr = new Uint8Array(bin.length);
+        for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(arr.buffer);
+        const ws = workbook.getWorksheet('Declaratie');
+
+        // Helper: schrijf waarde met zwarte tekst en vaste achtergrondkleur (geen theme-afhankelijkheid)
+        function schrijf(cel, waarde) {
+            cel.value = waarde;
+            cel.font = { name: 'Arial', size: cel.font ? cel.font.size : 10, color: { argb: 'FF000000' } };
+            cel.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFDEEAF1' } };
+        }
+        // Helper voor cellen zonder blauwe achtergrond (trainingsmatrix, km, bedragen)
+        function schrijfGetal(cel, waarde) {
+            cel.value = waarde;
+            cel.font = { name: 'Arial', size: cel.font ? cel.font.size : 10, color: { argb: 'FF000000' } };
+        }
+
+        // ── Stamgegevens ──────────────────────────────────────────────
+        schrijf(ws.getCell('G12'), kwartaalVal);
+        schrijf(ws.getCell('S12'), jaar);
+        schrijf(ws.getCell('G14'), naamVal);
+        schrijf(ws.getCell('AA13'), trCodeVal);
+        schrijf(ws.getCell('G15'), adresVal);
+        schrijf(ws.getCell('G16'), postcodeVal);
+        schrijf(ws.getCell('G17'), document.getElementById('woonplaats').value.trim());
+        schrijf(ws.getCell('G18'), document.getElementById('telefoon').value.trim());
+        schrijf(ws.getCell('G19'), ibanVal);
+        // TR6 tarief indien van toepassing
+        if (trCodeVal === 'TR6') {
+            schrijf(ws.getCell('V20'), tariefVal);
+        }
+
+        // ── Trainingsuren matrix ───────────────────────────────────────
+        // Rijen: maand1=24, maand2=26, maand3=28 (trainingsduur-rijen)
+        // Dag-kolommen: dag 1 = kolom G (7), dag 31 = kolom AK (37)
+        const mClasses = ['.m1-dag', '.m2-dag', '.m3-dag'];
+        const mRows = [24, 26, 28];  // Trainingsduur data-rijen in Excel
+
+        for (let m = 0; m < 3; m++) {
+            const selects = document.querySelectorAll(mClasses[m]);
+            for (let d = 1; d <= 31; d++) {
+                const sel = selects[d-1];
+                if (!sel) continue;
+                const val = parseFloat(sel.value) || 0;
+                if (val > 0) {
+                    // Kolom: G=7, dag 1 -> col 7, dag d -> col 6+d
+                    ws.getRow(mRows[m]).getCell(6 + d).value = val;
+                }
+            }
+        }
+
+        // ── Cursus/opleiding ──────────────────────────────────────────
+        // Rij 33 en 34: beschrijving in B (col 2, merged), bedrag in R (col 18)
+        const cursusInputs = document.querySelectorAll('#tabelCursus tbody tr:not(:last-child)');
+        const cursusExcelRows = [33, 34];
+        let cIdx = 0;
+        cursusInputs.forEach(function(tr) {
+            if (cIdx >= cursusExcelRows.length) return;
+            const desc = tr.querySelector('input[type="text"]');
+            const bedrag = tr.querySelector('input[type="number"]');
+            if (desc && desc.value.trim()) {
+                schrijf(ws.getRow(cursusExcelRows[cIdx]).getCell(2), desc.value.trim());
+            }
+            if (bedrag) {
+                const b = parseFloat(bedrag.value) || 0;
+                if (b !== 0) schrijfGetal(ws.getRow(cursusExcelRows[cIdx]).getCell(18), b);
+            }
+            cIdx++;
+        });
+
+        // ── Overige onkosten ──────────────────────────────────────────
+        // Rij 40 en 41: beschrijving in B (col 2), bedrag in R (col 18)
+        const onkostenInputs = document.querySelectorAll('#tabelOnkosten tbody tr:not(:last-child)');
+        const onkExcelRows = [40, 41];
+        let oIdx = 0;
+        onkostenInputs.forEach(function(tr) {
+            if (oIdx >= onkExcelRows.length) return;
+            const desc = tr.querySelector('input[type="text"]');
+            const bedrag = tr.querySelector('input[type="number"]');
+            if (desc && desc.value.trim()) {
+                schrijf(ws.getRow(onkExcelRows[oIdx]).getCell(2), desc.value.trim());
+            }
+            if (bedrag) {
+                const b = parseFloat(bedrag.value) || 0;
+                if (b !== 0) schrijfGetal(ws.getRow(onkExcelRows[oIdx]).getCell(18), b);
+            }
+            oIdx++;
+        });
+
+        // ── Kilometer administratie - Trainingen ──────────────────────
+        // Rij 46-52: col B=2 (ritten), col E=5 (bestemming vrij), col N=14 (km per rit)
+        // Vaste bestemmingen: rij 46=Rozenoord, 47=zaal, 48=bos; vrij: 49,50,51,52
+        const ktRitten = document.querySelectorAll('.kt-ritten');
+        const ktKmPerRit = document.querySelectorAll('.kt-kmperrit');
+        const ktBestemming = document.querySelectorAll('.kt-bestemming');
+        const ktExcelRows = [46, 47, 48, 49, 50, 51, 52];
+        let vrijIdx = 0;
+        for (let i = 0; i < Math.min(ktRitten.length, ktExcelRows.length); i++) {
+            const ritten = parseFloat(ktRitten[i].value) || 0;
+            const km = parseFloat(ktKmPerRit[i].value) || 0;
+            if (ritten !== 0) schrijfGetal(ws.getRow(ktExcelRows[i]).getCell(2), ritten);
+            if (km !== 0) schrijfGetal(ws.getRow(ktExcelRows[i]).getCell(14), km);
+            // Vrije bestemmingen (rijen 49-52) hebben een tekstveld
+            if (i >= 3 && ktBestemming[vrijIdx]) {
+                const best = ktBestemming[vrijIdx].value.trim();
+                if (best) schrijf(ws.getRow(ktExcelRows[i]).getCell(5), best);
+                vrijIdx++;
+            }
+        }
+
+        // ── Wedstrijdbegeleiding ritten (B56 = aantal ritten × €10) ──
+        const wRitten = parseFloat(document.getElementById('wedstrijd_ritten').value) || 0;
+        if (wRitten !== 0) schrijfGetal(ws.getRow(56).getCell(2), wRitten);
+
+        // ── Wedstrijdbegeleiding km ───────────────────────────────────
+        // Rijen 60-78: col B=2 (datum/beschrijving), col V=22 (km)
+        const kwRows = document.querySelectorAll('#tabelKmWedstrijd tbody tr:not(:last-child)');
+        const kwExcelStart = 60;
+        let kwIdx = 0;
+        kwRows.forEach(function(tr) {
+            const exRow = kwExcelStart + kwIdx;
+            if (exRow > 78) return;
+            const inputs = tr.querySelectorAll('input');
+            if (inputs.length >= 4) {
+                const datum = inputs[0].value.trim();
+                const best = inputs[1].value.trim();
+                const km = parseFloat(inputs[3].value) || 0;
+                if (datum || best) {
+                    schrijf(ws.getRow(exRow).getCell(2), (datum ? datum + ' ' : '') + best);
+                }
+                if (km !== 0) schrijfGetal(ws.getRow(exRow).getCell(22), km);
+            }
+            kwIdx++;
+        });
+
+        // Export
+        const buffer = await workbook.xlsx.writeBuffer();
+        saveAs(new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), bestandsnaam);
+
+        // Toon succes-melding
+        document.getElementById('export_melding_naam').textContent = bestandsnaam;
+        document.getElementById('export_melding').style.display = 'block';
+        document.getElementById('export_melding').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        } catch(err) {
+            alert('Er is een fout opgetreden bij het exporteren:\n\n' + err.message + '\n\n' + err.stack);
+        } finally {
+            btn.textContent = origTekst;
+            btn.disabled = false;
+        }
+    }
+
+    window.onload = function() {
+        updateMaandLabels();
+        validerenDagenPerMaand();
+        berekenAlles();
+    };
+</script>
+
+</body>
+</html>
